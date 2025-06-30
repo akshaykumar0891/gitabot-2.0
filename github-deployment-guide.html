@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Deployment Guide - Gita GPT</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #6366f1;
+            padding-bottom: 15px;
+        }
+        h2 {
+            color: #4a5568;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .step {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #6366f1;
+        }
+        .step h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .substep {
+            margin: 10px 0 10px 20px;
+            padding: 8px 0;
+        }
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d1edff;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .btn {
+            display: inline-block;
+            background: #6366f1;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #4f46e5;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 GitHub Deployment Guide for Gita GPT</h1>
+
+        <div class="info">
+            <strong>What You'll Achieve:</strong>
+            <ul>
+                <li>Upload your website to GitHub repository</li>
+                <li>Enable free hosting with GitHub Pages</li>
+                <li>Get a live URL: https://yourusername.github.io/gita-gpt</li>
+                <li>Version control and backup for your code</li>
+            </ul>
+        </div>
+
+        <h2>📋 Prerequisites</h2>
+        <div class="step">
+            <ul>
+                <li>GitHub account (free) - <a href="https://github.com/join" target="_blank">Sign up here</a></li>
+                <li>Downloaded gita-gpt-website.zip file</li>
+                <li>Web browser</li>
+            </ul>
+        </div>
+
+        <h2>🔧 Method 1: Using GitHub Web Interface (Recommended for Beginners)</h2>
+
+        <div class="step">
+            <h3>Step 1: Create New Repository</h3>
+            <div class="substep">1. Go to <a href="https://github.com" target="_blank">github.com</a> and sign in</div>
+            <div class="substep">2. Click the <span class="highlight">green "New"</span> button or <span class="highlight">"+"</span> icon → "New repository"</div>
+            <div class="substep">3. Fill in repository details:
+                <ul>
+                    <li><strong>Repository name:</strong> <code>gita-gpt</code> (or any name you prefer)</li>
+                    <li><strong>Description:</strong> "Divine Wisdom Assistant - Bhagavad Gita Chatbot"</li>
+                    <li>Select <span class="highlight">"Public"</span> (required for free GitHub Pages)</li>
+                    <li>Check <span class="highlight">"Add a README file"</span></li>
+                </ul>
+            </div>
+            <div class="substep">4. Click <span class="highlight">"Create repository"</span></div>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Upload Your Website Files</h3>
+            <div class="substep">1. In your new repository, click <span class="highlight">"uploading an existing file"</span> or <span class="highlight">"Add file" → "Upload files"</span></div>
+            <div class="substep">2. Extract your <code>gita-gpt-website.zip</code> on your computer first</div>
+            <div class="substep">3. Drag and drop ALL extracted files into the GitHub upload area:
+                <ul>
+                    <li>index.html</li>
+                    <li>.htaccess</li>
+                    <li>js/ folder</li>
+                    <li>styles/ folder</li>
+                    <li>assets/ folder</li>
+                    <li>README.md</li>
+                    <li>DEPLOYMENT_GUIDE.md</li>
+                </ul>
+            </div>
+            <div class="substep">4. Add commit message: <code>Initial upload of Gita GPT website</code></div>
+            <div class="substep">5. Click <span class="highlight">"Commit changes"</span></div>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Enable GitHub Pages</h3>
+            <div class="substep">1. In your repository, click <span class="highlight">"Settings"</span> tab</div>
+            <div class="substep">2. Scroll down to <span class="highlight">"Pages"</span> section in the left sidebar</div>
+            <div class="substep">3. Under "Source", select <span class="highlight">"Deploy from a branch"</span></div>
+            <div class="substep">4. Choose <span class="highlight">"main"</span> branch and <span class="highlight">"/ (root)"</span></div>
+            <div class="substep">5. Click <span class="highlight">"Save"</span></div>
+        </div>
+
+        <div class="success">
+            <strong>🎉 Success!</strong> Your website will be live at: <br>
+            <code>https://yourusername.github.io/repository-name</code><br>
+            (Replace with your actual GitHub username and repository name)
+        </div>
+
+        <h2>⚡ Method 2: Using Git Command Line (Advanced)</h2>
+
+        <div class="step">
+            <h3>Step 1: Install Git</h3>
+            <div class="substep">1. Download Git from <a href="https://git-scm.com/downloads" target="_blank">git-scm.com</a></div>
+            <div class="substep">2. Install and configure:
+                <div class="code">git config --global user.name "Your Name"<br>git config --global user.email "your.email@example.com"</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Create Repository and Push Code</h3>
+            <div class="substep">1. Create repository on GitHub (same as Method 1, Step 1)</div>
+            <div class="substep">2. Extract your zip file to a folder</div>
+            <div class="substep">3. Open terminal/command prompt in that folder</div>
+            <div class="substep">4. Run these commands:
+                <div class="code">git init<br>git add .<br>git commit -m "Initial commit"<br>git branch -M main<br>git remote add origin https://github.com/yourusername/repository-name.git<br>git push -u origin main</div>
+            </div>
+        </div>
+
+        <h2>🛠️ Additional Configuration</h2>
+
+        <div class="step">
+            <h3>Custom Domain (Optional)</h3>
+            <div class="substep">1. In repository Settings → Pages</div>
+            <div class="substep">2. Add your custom domain in "Custom domain" field</div>
+            <div class="substep">3. Update your domain's DNS to point to GitHub Pages</div>
+        </div>
+
+        <div class="step">
+            <h3>Repository Settings</h3>
+            <div class="substep">1. Add topics/tags: <code>chatbot</code>, <code>bhagavad-gita</code>, <code>spiritual</code>, <code>javascript</code></div>
+            <div class="substep">2. Update repository description</div>
+            <div class="substep">3. Add website URL in repository details</div>
+        </div>
+
+        <h2>🔍 Troubleshooting</h2>
+
+        <div class="step">
+            <h3>Common Issues</h3>
+            <div class="warning">
+                <strong>Site not loading:</strong>
+                <ul>
+                    <li>Wait 5-10 minutes for GitHub Pages to deploy</li>
+                    <li>Check that index.html is in root directory</li>
+                    <li>Ensure repository is public</li>
+                </ul>
+            </div>
+            <div class="warning">
+                <strong>Files missing:</strong>
+                <ul>
+                    <li>Make sure all folders uploaded correctly</li>
+                    <li>Check that file paths are correct in HTML</li>
+                    <li>Verify .htaccess uploaded (might be hidden)</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>📚 Next Steps</h2>
+
+        <div class="info">
+            <strong>After Deployment:</strong>
+            <ul>
+                <li>Test your live website thoroughly</li>
+                <li>Share the GitHub Pages URL</li>
+                <li>Consider setting up analytics</li>
+                <li>Keep your repository updated</li>
+                <li>Enable branch protection rules</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>Updating Your Website</h3>
+            <div class="substep">1. Make changes to your files</div>
+            <div class="substep">2. Upload new files via GitHub web interface</div>
+            <div class="substep">3. Or use git commands to push updates</div>
+            <div class="substep">4. Changes will automatically deploy to GitHub Pages</div>
+        </div>
+
+        <div class="success">
+            <strong>🌟 Benefits of GitHub Hosting:</strong>
+            <ul>
+                <li>Free hosting with HTTPS</li>
+                <li>Global CDN for fast loading</li>
+                <li>Version control and history</li>
+                <li>Easy collaboration</li>
+                <li>Professional developer portfolio</li>
+            </ul>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px;">
+            <a href="gita-gpt-website.zip" class="btn" download>📦 Download Website Files</a>
+            <a href="https://github.com" class="btn btn-secondary" target="_blank">🚀 Go to GitHub</a>
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+/* Dark Theme */
+.theme-dark {
+    --primary: 262 83% 68%; /* #818cf8 */
+    --primary-light: 262 83% 78%; /* #a5b4fc */
+    --primary-dark: 262 83% 58%; /* #6366f1 */
+    
+    --secondary: 142 76% 46%; /* #22c55e */
+    --secondary-light: 142 76% 56%; /* #4ade80 */
+    
+    --accent: 328 86% 68%; /* #f472b6 */
+    --accent-light: 328 86% 78%; /* #f9a8d4 */
+    
+    --background: 222 84% 5%; /* #0f0f23 */
+    --surface: 220 13% 9%; /* #1e1e2e */
+    --surface-variant: 217 19% 12%; /* #262637 */
+    
+    --text-primary: 210 40% 95%; /* #f1f5f9 */
+    --text-secondary: 215 25% 75%; /* #cbd5e1 */
+    --text-tertiary: 215 16% 55%; /* #64748b */
+    
+    --border: 215 28% 17%; /* #1e293b */
+    --border-variant: 215 25% 25%; /* #334155 */
+    
+    /* Enhanced shadows for dark mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+}
+
+/* Auto Theme - follows system preference */
+@media (prefers-color-scheme: dark) {
+    .theme-auto {
+        --primary: 262 83% 68%;
+        --primary-light: 262 83% 78%;
+        --primary-dark: 262 83% 58%;
+        
+        --secondary: 142 76% 46%;
+        --secondary-light: 142 76% 56%;
+        
+        --accent: 328 86% 68%;
+        --accent-light: 328 86% 78%;
+        
+        --background: 222 84% 5%;
+        --surface: 220 13% 9%;
+        --surface-variant: 217 19% 12%;
+        
+        --text-primary: 210 40% 95%;
+        --text-secondary: 215 25% 75%;
+        --text-tertiary: 215 16% 55%;
+        
+        --border: 215 28% 17%;
+        --border-variant: 215 25% 25%;
+        
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    }
+}
+
+/* Theme Transition */
+.theme-transition * {
+    transition: 
+        background-color var(--transition-normal),
+        border-color var(--transition-normal),
+        color var(--transition-normal),
+        box-shadow var(--transition-normal) !important;
+}
+
+/* Dark mode specific adjustments */
+.theme-dark .header,
+.theme-auto .header {
+    background: hsl(var(--surface) / 0.9);
+}
+
+.theme-dark .input-section,
+.theme-auto .input-section {
+    background: hsl(var(--surface) / 0.9);
+}
+
+/* Dark mode scrollbar */
+.theme-dark .chat-messages::-webkit-scrollbar-track,
+.theme-auto .chat-messages::-webkit-scrollbar-track {
+    background: hsl(var(--surface));
+}
+
+.theme-dark .chat-messages::-webkit-scrollbar-thumb,
+.theme-auto .chat-messages::-webkit-scrollbar-thumb {
+    background: hsl(var(--border-variant));
+}
+
+.theme-dark .chat-messages::-webkit-scrollbar-thumb:hover,
+.theme-auto .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--text-tertiary));
+}
+
+/* Enhanced gradients for dark mode */
+.theme-dark body {
+    background: linear-gradient(135deg, 
+        hsl(var(--background)) 0%, 
+        hsl(217 19% 8%) 50%,
+        hsl(var(--surface-variant)) 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+    .theme-auto body {
+        background: linear-gradient(135deg, 
+            hsl(var(--background)) 0%, 
+            hsl(217 19% 8%) 50%,
+            hsl(var(--surface-variant)) 100%);
+    }
+}
+
+/* Theme toggle styles */
+.theme-toggle {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: hsl(var(--surface-variant));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    background: hsl(var(--border-variant));
+    transform: scale(1.05);
+}
+
+.theme-toggle .sun-icon,
+.theme-toggle .moon-icon {
+    position: absolute;
+    transition: all var(--transition-normal);
+}
+
+/* Light theme - show sun, hide moon */
+.theme-light .theme-toggle .sun-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.theme-light .theme-toggle .moon-icon {
+    opacity: 0;
+    transform: rotate(180deg) scale(0.5);
+}
+
+/* Dark theme - show moon, hide sun */
+.theme-dark .theme-toggle .sun-icon,
+.theme-auto .theme-toggle .sun-icon {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+}
+
+.theme-dark .theme-toggle .moon-icon,
+.theme-auto .theme-toggle .moon-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* Auto theme adjustments */
+@media (prefers-color-scheme: dark) {
+    .theme-auto .theme-toggle .sun-icon {
+        opacity: 0;
+        transform: rotate(-180deg) scale(0.5);
+    }
+    
+    .theme-auto .theme-toggle .moon-icon {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+/* Theme option previews */
+.theme-preview {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+    border: 2px solid hsl(var(--border));
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-preview.light {
+    background: linear-gradient(135deg, #f8fafc 50%, #6366f1 50%);
+}
+
+.theme-preview.dark {
+    background: linear-gradient(135deg, #0f0f23 50%, #818cf8 50%);
+}
+
+.theme-preview.auto {
+    background: linear-gradient(135deg, #f8fafc 25%, #0f0f23 25%, #0f0f23 75%, #f8fafc 75%);
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+    .theme-dark {
+        --text-primary: 0 0% 100%;
+        --text-secondary: 0 0% 90%;
+        --border: 0 0% 50%;
+        --border-variant: 0 0% 70%;
+    }
+}

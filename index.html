@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gita GPT - Divine Wisdom Assistant</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    
+    <!-- Meta -->
+    <meta name="description" content="Seek divine wisdom and guidance through the teachings of Lord Krishna and the Bhagavad Gita">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="assets/icons.svg" as="image" type="image/svg+xml">
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="divine-lotus">
+                <svg width="80" height="80" viewBox="0 0 100 100">
+                    <path d="M50 20 C30 25, 20 40, 25 55 C30 40, 45 30, 50 35 C55 30, 70 40, 75 55 C80 40, 70 25, 50 20 Z" fill="currentColor" opacity="0.8"/>
+                    <path d="M50 35 C35 40, 25 55, 30 70 C35 55, 45 45, 50 50 C55 45, 65 55, 70 70 C75 55, 65 40, 50 35 Z" fill="currentColor" opacity="0.6"/>
+                    <circle cx="50" cy="50" r="8" fill="currentColor"/>
+                </svg>
+            </div>
+            <h2>Gita GPT</h2>
+            <p>Loading divine wisdom...</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <svg width="32" height="32" viewBox="0 0 100 100">
+                            <path d="M50 10 C25 15, 10 35, 15 60 C20 35, 40 20, 50 25 C60 20, 80 35, 85 60 C90 35, 75 15, 50 10 Z" fill="currentColor"/>
+                            <circle cx="50" cy="50" r="12" fill="var(--background)"/>
+                            <circle cx="50" cy="50" r="6" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1>Gita GPT</h1>
+                        <span>Divine Wisdom Assistant</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    
+                    <button id="menuButton" class="menu-button" aria-label="Open menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Container -->
+        <main class="chat-container">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-avatar">
+                        <div class="avatar-glow"></div>
+                        <svg width="120" height="120" viewBox="0 0 200 200">
+                            <defs>
+                                <radialGradient id="avatarGradient" cx="50%" cy="30%" r="60%">
+                                    <stop offset="0%" style="stop-color: var(--primary-light)"/>
+                                    <stop offset="100%" style="stop-color: var(--primary)"/>
+                                </radialGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="90" fill="url(#avatarGradient)" opacity="0.8"/>
+                            <path d="M100 30 C60 40, 40 70, 50 110 C60 70, 85 50, 100 60 C115 50, 140 70, 150 110 C160 70, 140 40, 100 30 Z" fill="var(--background)" opacity="0.9"/>
+                            <circle cx="100" cy="100" r="25" fill="var(--primary)"/>
+                            <path d="M85 90 Q100 85 115 90 Q100 105 85 90" fill="var(--background)"/>
+                        </svg>
+                    </div>
+                    
+                    <h2>🙏 Namaste, Seeker</h2>
+                    <p class="welcome-subtitle">Welcome to your divine wisdom companion. I am here to guide you through life's questions with the eternal teachings of the Bhagavad Gita.</p>
+                    
+                    <div class="quick-actions">
+                        <button class="quick-action" data-message="What is the meaning of life according to the Gita?">
+                            <span>🌟</span>
+                            <span>Life's Purpose</span>
+                        </button>
+                        <button class="quick-action" data-message="How can I find inner peace?">
+                            <span>🕉️</span>
+                            <span>Inner Peace</span>
+                        </button>
+                        <button class="quick-action" data-message="How do I overcome anxiety and fear?">
+                            <span>💫</span>
+                            <span>Overcome Fear</span>
+                        </button>
+                        <button class="quick-action" data-message="What is dharma and how do I follow it?">
+                            <span>⚖️</span>
+                            <span>Understanding Dharma</span>
+                        </button>
+                    </div>
+                    
+                    <button id="dailyVerseWelcome" class="daily-verse-btn">
+                        <span>📿</span>
+                        <span>Receive Today's Verse</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div id="chatMessages" class="chat-messages"></div>
+        </main>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea id="messageInput" 
+                             placeholder="Ask Krishna for guidance..." 
+                             rows="1"
+                             maxlength="1000"></textarea>
+                    
+                    <div class="input-actions">
+                        <button id="sendButton" class="send-button" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="input-footer">
+                    <div class="input-info">
+                        <span id="charCount">0/1000</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="dailyVerseButton" class="action-btn" title="Daily Verse">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <span>Daily Verse</span>
+                        </button>
+                        
+                        <button id="clearChatButton" class="action-btn" title="Clear Chat">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"/>
+                                <path d="M19,6v14a2,2 0 01-2,2H7a2,2 0 01-2-2V6M8,6V4a2,2 0 012-2h4a2,2 0 012,2v2"/>
+                            </svg>
+                            <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Overlay -->
+        <div id="menuOverlay" class="menu-overlay">
+            <div class="menu-content">
+                <div class="menu-header">
+                    <h3>Settings & More</h3>
+                    <button id="closeMenu" class="close-menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="menu-section">
+                    <h4>Appearance</h4>
+                    <div class="theme-options">
+                        <button class="theme-option" data-theme="light">
+                            <span class="theme-preview light"></span>
+                            <span>Light</span>
+                        </button>
+                        <button class="theme-option" data-theme="dark">
+                            <span class="theme-preview dark"></span>
+                            <span>Dark</span>
+                        </button>
+                        <button class="theme-option" data-theme="auto">
+                            <span class="theme-preview auto"></span>
+                            <span>Auto</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <h4>Voice Settings</h4>
+                    <div class="voice-controls">
+                        <label class="control-item">
+                            <span>Speech Rate</span>
+                            <input type="range" id="speechRate" min="0.5" max="2" step="0.1" value="1">
+                        </label>
+                        <label class="control-item">
+                            <span>Speech Pitch</span>
+                            <input type="range" id="speechPitch" min="0.5" max="2" step="0.1" value="1">
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <h4>About</h4>
+                    <p class="about-text">Gita GPT is your divine companion, offering wisdom from the Bhagavad Gita to guide you through life's journey.</p>
+                    <div class="version-info">
+                        <span>Version 2.0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/themes.js"></script>
+    <script src="js/speech.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
