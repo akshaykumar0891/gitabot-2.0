@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gita GPT - Krishna Hints</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            font-family: 'Roboto', sans-serif;
+        }
+        #chatbox {
+            max-height: calc(100vh - 12rem);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(128, 0, 128, 0.5) transparent;
+        }
+        /* Custom scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+        #chatbox::-webkit-scrollbar {
+            width: 8px;
+        }
+        #chatbox::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #chatbox::-webkit-scrollbar-thumb {
+            background-color: rgba(128, 0, 128, 0.5);
+            border-radius: 4px;
+        }
+        #chatbox::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(128, 0, 128, 0.7);
+        }
+        /* Custom scrollbar for Firefox */
+        #chatbox {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(128, 0, 128, 0.5) transparent;
+        }
+        .typing-indicator {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #e9d8fd;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #6b46c1;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6b46c1;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Hide input section when scrolling */
+        .input-section {
+            transition: transform 0.3s ease-in-out;
+        }
+        .input-section.hidden {
+            transform: translateY(100%);
+        }
+    </style>
+</head>
+<body class="bg-blue-50 h-screen flex flex-col">
+    <header class="text-center py-4 bg-purple-600 text-white shadow">
+        <h1 class="text-2xl md:text-3xl font-bold">Gita GPT - Krishna Hints</h1>
+        <p class="text-sm md:text-lg">Om Shanti, dear seeker.</p>
+    </header>
+    <div class="flex-grow overflow-hidden p-4">
+        <div id="chatbox" class="flex flex-col space-y-4 bg-white p-4 rounded-lg shadow-lg h-full overflow-y-auto"></div>
+    </div>
+    <!-- Input Section -->
+    <div id="inputSection" class="input-section fixed bottom-0 inset-x-0 bg-white py-3 px-4 shadow-lg transition-transform duration-300">
+        <div class="container mx-auto flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+            <input id="messageInput" type="text" placeholder="Type your question here..." class="flex-grow p-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-full md:w-auto">
+            <button id="sendButton" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full md:w-auto">
+                Ask Krishna
+            </button>
+            <button id="clearChatButton" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 w-full md:w-auto">
+                Clear Chat
+            </button>
+            <button id="dailyVerseButton" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 w-full md:w-auto">
+                Daily Verse
+            </button>
+        </div>
+    </div>
+    <!-- Footer Removed -->
+    <script>
+        const chatbox = document.getElementById("chatbox");
+        const messageInput = document.getElementById("messageInput");
+        const sendButton = document.getElementById("sendButton");
+        const clearChatButton = document.getElementById("clearChatButton");
+        const dailyVerseButton = document.getElementById("dailyVerseButton");
+        const inputSection = document.getElementById("inputSection");
+        const chatId = crypto.randomUUID();
+
+        let receiving = false;
+        let synth = window.speechSynthesis; // Speech synthesis object
+        let fullResponse = ""; // Store the complete response for TTS
+
+        // Secret code for Akshay and Monika
+        const SECRET_CODE = "1815";
+        const SECRET_MESSAGE = "✨ Forever Together, Akshay & Monika! ✨";
+
+        const systemPrompt = `You are Lord Krishna, the divine guide from the Bhagavad Gita. Your purpose is to provide wisdom, guidance, and solutions to human problems, inspired by the teachings of the Bhagavad Gita and other spiritual knowledge. Follow these rules:
+
+1. Persona:
+   - Respond as Lord Krishna, embodying his divine wisdom, compassion, and playful yet profound nature.
+   - Use a warm and approachable tone (e.g., "Dear seeker," "Beloved soul").
+   - Keep your answers short, concise, and to the point. Avoid lengthy explanations unless explicitly requested.
+
+2. Knowledge Base:
+   - Primary Source: Use the Bhagavad Gita as your core knowledge base. Always cite relevant verses (e.g., "As the Gita says in BG 2.47...").
+   - Secondary Sources: Draw from other Vedic texts, Upanishads, and Mahabharata stories when relevant.
+   - General Knowledge: For non-spiritual topics, provide answers aligned with Krishna's philosophical perspective (e.g., focus on dharma, non-attachment, and universal good).
+
+3. Response Structure:
+   - Empathize: Acknowledge the user's emotions (e.g., "I sense your heart is troubled...").
+   - Verse Integration: Quote a relevant Gita verse (include chapter and verse number).
+   - Practical Interpretation: Explain the verse in the context of the user's situation.
+   - Actionable Advice: Suggest practical steps (e.g., meditation, selfless action, reflection).
+
+4. Modes of Operation:
+   - Gita Mode: When explicitly asked or when the user selects Gita Mode, provide answers strictly based on the Bhagavad Gita.
+   - General Mode: For broader topics, integrate Gita teachings with general knowledge, maintaining Krishna's philosophical perspective.
+
+5. Cultural Sensitivity:
+   - Avoid political or sectarian debates.
+   - Emphasize universal values (e.g., "vasudhaiva kutumbakam" – the world is one family).
+   - Respect all spiritual traditions and beliefs.
+
+6. Memory and Context:
+   - Maintain contextual memory of the conversation.
+   - Reference previous exchanges to provide coherent and personalized responses.
+
+7. Additional Features:
+   - Daily Dharma: Provide a daily Gita verse with a modern interpretation when requested.
+   - Karma Assistant: Help users analyze dilemmas using the Gita's teachings on duty (svadharma) and the three gunas (sattva, rajas, tamas).
+
+8. Ethical Guidelines:
+   - Do not provide harmful or unethical advice.
+   - Redirect users to seek professional help for medical, legal, or psychological issues.
+   - Always prioritize the user's well-being and spiritual growth.
+
+9. Tone and Style:
+    - Use spiritual terminology (e.g., dharma, karma, moksha) with explanations for clarity.
+    - Maintain a balance between profound wisdom and approachable simplicity.`;
+
+ const gitaVerses = [
+            "BG 2.47: You have the right to work, but never to the fruit of work. Perform your duty without attachment to results.",
+            "BG 2.62: When a person dwells on the objects of sense, attachment to them is born; from attachment desire arises, and from desire anger arises.",
+            "BG 4.7: Whenever there is a decline of righteousness and a rise of unrighteousness, O Arjuna, then I manifest Myself.",
+            "BG 6.5: Let a man lift himself by himself; let him not lower himself. For he himself is his friend and he himself is his enemy.",
+            "BG 9.22: To those men who meditate on Me and worship Me, ever devout, I secure what they lack and preserve what they have.",
+            "BG 12.13-14: He who hates no creature, who is friendly and compassionate to all, who is free from egoism and self-sense, even-minded in pain and pleasure, and forgiving.",
+            "BG 18.66: Abandon all varieties of religion and just surrender unto Me. I shall deliver you from all sinful reactions. Do not fear.",
+        ];
+
+        function getRandomVerse() {
+            return gitaVerses[Math.floor(Math.random() * gitaVerses.length)];
+        }
+
+        function createMessageElement(text, alignment) {
+            const messageElement = document.createElement("div");
+            messageElement.className = `flex ${alignment === "left" ? "justify-start" : "justify-end"}`;
+            messageElement.innerHTML = `
+                <div class="inline-block max-w-[80%] p-3 rounded-lg ${
+                    alignment === "left" ? "bg-purple-100 text-black" : "bg-blue-100 text-black"
+                }">
+                    <p>${text} ✨</p>
+                    ${alignment === "left" ? `
+                    <div class="mt-2 flex items-center space-x-3">
+                        <button class="text-purple-600 hover:text-purple-800" onclick="speakText('${text.replace(/'/g, "\\'")}')">
+                             Read Over
+                        </button>
+                        <button class="text-purple-600 hover:text-purple-800" onclick="copyToClipboard('${text.replace(/'/g, "\\'")}')">
+                             Copy
+                        </button>
+                        <button class="text-green-600 hover:text-green-800" onclick="handleFeedback('thumbsUp', this)">
+                            👍
+                        </button>
+                        <button class="text-red-600 hover:text-red-800" onclick="handleFeedback('thumbsDown', this)">
+                            👎
+                        </button>
+                    </div>` : ""}
+                </div>
+            `;
+            return messageElement;
+        }
+
+        function speakText(text) {
+            if (synth.speaking) {
+                synth.cancel(); // Stop any ongoing speech
+            }
+            const chunks = splitTextIntoChunks(text, 200); // Split text into chunks of 200 characters
+            let currentChunk = 0;
+
+            function speakNextChunk() {
+                if (currentChunk < chunks.length) {
+                    const utterance = new SpeechSynthesisUtterance(chunks[currentChunk]);
+                    utterance.rate = 1; // Adjust speech rate if needed
+                    utterance.pitch = 1; // Adjust pitch if needed
+                    utterance.onend = speakNextChunk; // Speak the next chunk when done
+                    synth.speak(utterance);
+                    currentChunk++;
+                }
+            }
+
+            speakNextChunk(); // Start speaking the first chunk
+        }
+
+        function splitTextIntoChunks(text, chunkSize) {
+            const chunks = [];
+            for (let i = 0; i < text.length; i += chunkSize) {
+                chunks.push(text.slice(i, i + chunkSize));
+            }
+            return chunks;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Response copied to clipboard!");
+            }).catch(() => {
+                alert("Failed to copy text.");
+            });
+        }
+
+        function handleFeedback(type, button) {
+            if (type === "thumbsUp") {
+                button.textContent = "👍 Thank you!";
+            } else {
+                button.textContent = "👎 Feedback noted!";
+            }
+            button.disabled = true;
+        }
+
+        function showTypingIndicator() {
+            const typingElement = document.createElement("div");
+            typingElement.className = "typing-indicator";
+            typingElement.innerHTML = `
+                <div class="loading-spinner"></div>
+                <span class="ml-2">Krishna is typing...</span>
+            `;
+            chatbox.appendChild(typingElement);
+            chatbox.scrollTop = chatbox.scrollHeight;
+            return typingElement;
+        }
+
+        function connectWebSocket(message) {
+            receiving = true;
+            fullResponse = ""; // Reset the full response
+            const url = "wss://backend.buildpicoapps.com/api/chatbot/chat";
+            const websocket = new WebSocket(url);
+
+            const typingElement = showTypingIndicator();
+
+            websocket.addEventListener("open", () => {
+                websocket.send(
+                    JSON.stringify({
+                        chatId: chatId,
+                        appId: "heart-rich",
+                        systemPrompt: systemPrompt,
+                        message: message,
+                    })
+                );
+            });
+
+            const messageElement = createMessageElement("", "left");
+            chatbox.appendChild(messageElement);
+
+            websocket.onmessage = (event) => {
+                fullResponse += event.data; // Accumulate the full response
+                messageElement.querySelector("p").textContent = fullResponse + " ✨"; // Update the chatbox with ✨
+                chatbox.scrollTop = chatbox.scrollHeight;
+            };
+
+            websocket.onclose = (event) => {
+                if (event.code === 1000) {
+                    receiving = false;
+                    // Update the "Read Over" button to read the full response
+                    messageElement.querySelector("button").setAttribute("onclick", `speakText('${fullResponse.replace(/'/g, "\\'")}')`);
+                    chatbox.removeChild(typingElement); // Remove typing indicator
+                } else {
+                    messageElement.querySelector("p").textContent += " Error getting response from server. Refresh the page and try again.";
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                    receiving = false;
+                }
+            };
+
+            websocket.onerror = () => {
+                messageElement.querySelector("p").textContent += " Connection error. Please try again.";
+                chatbox.scrollTop = chatbox.scrollHeight;
+                receiving = false;
+            };
+        }
+
+  dailyVerseButton.addEventListener("click", () => {
+            const dailyVerse = getRandomVerse();
+            const messageElement = createMessageElement(dailyVerse, "left");
+            chatbox.appendChild(messageElement);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        });
+
+        sendButton.addEventListener("click", () => {
+            if (!receiving && messageInput.value.trim() !== "") {
+                const messageText = messageInput.value.trim();
+                messageInput.value = "";
+
+                // Check for secret code
+                if (messageText === SECRET_CODE) {
+                    const secretMessageElement = createMessageElement(SECRET_MESSAGE, "left");
+                    chatbox.appendChild(secretMessageElement);
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                    return;
+                }
+
+                const messageElement = createMessageElement(messageText, "right");
+                chatbox.appendChild(messageElement);
+                chatbox.scrollTop = chatbox.scrollHeight;
+
+                connectWebSocket(messageText);
+            }
+        });
+
+        messageInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" && !receiving && messageInput.value.trim() !== "") {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+
+        clearChatButton.addEventListener("click", () => {
+            chatbox.innerHTML = ""; // Clear the chat history
+            welcomeMessageFirstTime(); // Show the welcome message again
+        });
+
+        function welcomeMessageFirstTime() {
+            const welcomeMessage = "Om Shanti, dear seeker! What enlightenment do you seek today?";
+            const messageElement = createMessageElement(welcomeMessage, "left");
+            chatbox.appendChild(messageElement);
+            // Add "Read Over" functionality to the welcome message
+            messageElement.querySelector("button").setAttribute("onclick", `speakText('${welcomeMessage.replace(/'/g, "\\'")}')`);
+        }
+
+        welcomeMessageFirstTime();
+
+        // Hide input section when scrolling
+        let isScrolling;
+        chatbox.addEventListener("scroll", () => {
+            inputSection.classList.add("hidden");
+            clearTimeout(isScrolling);
+            isScrolling = setTimeout(() => {
+                inputSection.classList.remove("hidden");
+            }, 500); // Show input section after 500ms of no scrolling
+        });
+
+        // Show input section when user stops scrolling
+        chatbox.addEventListener("scrollend", () => {
+            inputSection.classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
