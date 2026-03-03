@@ -13,9 +13,7 @@ class ChatManager {
         this.systemPrompt = this.getSystemPrompt();
         this.gitaVerses = this.getGitaVerses();
         
-        // Secret code handling
-        this.SECRET_CODE = "1815";
-        this.SECRET_MESSAGE = "✨ Forever Together, Akshay & Monika! ✨";
+       
     }
 
     /**
